@@ -1,0 +1,30 @@
+:host ::ng-deep {
+  .main-container {
+    top: 0px !important;
+  }
+}
+
+.menu-sidebar {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    .nav-item {
+      padding: 8px;
+      text-decoration: none;
+      color: black;
+      background-color: rgb(207, 207, 207);
+      width: 100%;
+    }
+  }
+}
