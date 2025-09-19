@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "loginvsi-assignment2": {
+    "loginvsi-assignment": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -21,7 +21,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/loginvsi-assignment2",
+            "outputPath": "dist/loginvsi-assignment",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -33,6 +33,7 @@
                 "input": "public"
               }
             ],
+
             "styles": [
               "src/styles.scss",
               "node_modules/@nebular/theme/styles/prebuilt/default.css"
@@ -67,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "loginvsi-assignment2:build:production"
+              "buildTarget": "loginvsi-assignment:build:production"
             },
             "development": {
-              "buildTarget": "loginvsi-assignment2:build:development"
+              "buildTarget": "loginvsi-assignment:build:development"
             }
           },
           "defaultConfiguration": "development"
