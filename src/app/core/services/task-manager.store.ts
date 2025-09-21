@@ -66,7 +66,6 @@ export class TaskManagerStore {
     };
 
     this.patchState((state) => {
-      console.log(state);
       return {
         ...state,
         users: [...state.users, user],
