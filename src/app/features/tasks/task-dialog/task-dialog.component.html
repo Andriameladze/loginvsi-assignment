@@ -1,0 +1,93 @@
+<nb-card class="task-dialog">
+  <nb-card-header>
+    <div class="task-dialog__header">
+      <h2>{{ dialogTitle }}</h2>
+      <button nbButton ghost size="small" status="basic" (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <form class="task-dialog__form" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="task-dialog__field">
+        <label for="task-name">Name</label>
+        <input
+          nbInput
+          id="task-name"
+          placeholder="e.g. Prepare sprint demo"
+          formControlName="name"
+        />
+
+        @if(form.controls.name.touched && form.controls.name.invalid){
+        <span class="task-dialog__error">
+          Name is required and limited to 80 characters.
+        </span>
+        }
+      </div>
+
+      <div class="task-dialog__field">
+        <label for="task-description">Description</label>
+        <textarea
+          nbInput
+          id="task-description"
+          rows="4"
+          placeholder="Describe what has to be done"
+          formControlName="description"
+        >
+        </textarea>
+
+        @if(form.controls.description.touched &&
+        form.controls.description.invalid){
+        <span class="task-dialog__error" *ngIf="">
+          Description is required (max 500 characters).
+        </span>
+        }
+      </div>
+
+      <div class="task-dialog__row">
+        <div class="task-dialog__field">
+          <label for="task-assignee">Assignee</label>
+          <nb-select
+            id="task-assignee"
+            filled
+            placeholder="Unassigned"
+            formControlName="assigneeId"
+            (selectedChange)="onAssigneeChange($event)"
+          >
+            <nb-option [value]="null">Unassigned</nb-option>
+
+            @for(user of users(); track user.id){
+
+            <nb-option [value]="user.id" [disabled]="isOptionDisabled(user.id)">
+              {{ user.name }}
+            </nb-option>
+            }
+          </nb-select>
+        </div>
+
+        <div class="task-dialog__field" *ngIf="isEditMode">
+          <label for="task-state">State</label>
+
+          <nb-select id="task-state" filled formControlName="state">
+            @for(state of taskStates; track state){
+            <nb-option
+              [value]="state"
+              [disabled]="
+                !form.controls.assigneeId.value && state !== TaskEnum.IN_QUEUE
+              "
+            >
+              {{ state }}
+            </nb-option>
+            }
+          </nb-select>
+        </div>
+      </div>
+
+      <div class="task-dialog__actions">
+        <button nbButton status="primary" type="submit">
+          {{ isEditMode ? "Update Task" : "Create Task" }}
+        </button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

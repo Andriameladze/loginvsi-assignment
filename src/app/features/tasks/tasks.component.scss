@@ -1,0 +1,69 @@
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.tasks__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tasks__table-wrapper {
+  overflow-x: auto;
+}
+
+.tasks-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 820px;
+}
+
+.tasks-table thead {
+  background-color: var(--nb-card-border-color, #edf1f7);
+}
+
+.tasks-table th,
+.tasks-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--nb-card-border-color, #edf1f7);
+  vertical-align: top;
+}
+
+.tasks-table__cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tasks-table__name {
+  font-weight: 600;
+}
+
+.tasks-table__description {
+  color: var(--nb-text-hint-color);
+  font-size: 0.875rem;
+}
+
+.tasks-table__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tasks__empty {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+  color: var(--nb-text-hint-color);
+}
+
+@media (max-width: 960px) {
+  .tasks-table {
+    min-width: 640px;
+  }
+}

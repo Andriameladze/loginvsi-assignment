@@ -1,1 +1,115 @@
-<p>tasks works!</p>
+<div class="tasks">
+  <div class="tasks__header">
+    <h2>Tasks</h2>
+    <button
+      nbButton
+      status="primary"
+      size="medium"
+      (click)="openCreateDialog()"
+    >
+      New Task
+    </button>
+  </div>
+
+  @if(tasks().length){
+  <nb-card>
+    <nb-card-body>
+      <div class="tasks__table-wrapper">
+        <table class="tasks-table">
+          <thead>
+            <tr>
+              <th>Name & Description</th>
+              <th>Assignee</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Updated</th>
+              <th>Assign</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(task of tasks(); track task.id){
+            <tr>
+              <td>
+                <div class="tasks-table__cell">
+                  <span class="tasks-table__name">{{ task.name }}</span>
+                  <span class="tasks-table__description">{{
+                    task.description
+                  }}</span>
+                </div>
+              </td>
+              <td>{{ task.assigneeName ?? "Unassigned" }}</td>
+              <td>
+                <nb-select
+                  size="small"
+                  filled
+                  [selected]="task.state"
+                  (selectedChange)="onStatusSelected(task, $event)"
+                >
+                  @for(state of taskStates; track state){
+                  <nb-option
+                    [value]="state"
+                    [disabled]="isStatusOptionDisabled(task, state)"
+                  >
+                    {{ state }}
+                  </nb-option>
+                  }
+                </nb-select>
+              </td>
+              <td>{{ task.createdAt | date : "short" }}</td>
+              <td>{{ task.updatedAt | date : "short" }}</td>
+              <td>
+                <nb-select
+                  size="small"
+                  filled
+                  [selected]="task.assigneeId"
+                  (selectedChange)="onAssignSelected(task, $event)"
+                >
+                  <nb-option [value]="null">Unassigned</nb-option>
+                  @for(user of users(); track user.id){
+                  <nb-option
+                    [value]="user.id"
+                    [disabled]="isOptionDisabled(task, user.id)"
+                  >
+                    {{ user.name }}
+                  </nb-option>
+                  }
+                </nb-select>
+              </td>
+              <td>
+                <div class="tasks-table__actions">
+                  <button
+                    nbButton
+                    size="tiny"
+                    status="info"
+                    (click)="openEditDialog(task)"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    nbButton
+                    size="tiny"
+                    status="danger"
+                    (click)="deleteTask(task)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </nb-card-body>
+  </nb-card>
+
+  }@else {
+  <nb-card>
+    <nb-card-body class="tasks__empty">
+      <p>No tasks yet. Click "New Task" to add one.</p>
+    </nb-card-body>
+  </nb-card>
+  }
+</div>

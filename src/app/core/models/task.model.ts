@@ -1,4 +1,9 @@
-export type TaskState = 'in queue' | 'in progress' | 'done';
+import { TaskEnum } from '../constants/task.const';
+
+export type TaskState =
+  | TaskEnum.IN_QUEUE
+  | TaskEnum.IN_PROGRESS
+  | TaskEnum.DONE;
 
 export interface TaskDraft {
   name: string;
