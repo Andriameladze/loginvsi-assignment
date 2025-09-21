@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { NbLayoutModule, NbSidebarModule } from '@nebular/theme';
+import {
+  NbLayoutModule,
+  NbSidebarModule,
+  NbButtonModule,
+} from '@nebular/theme';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +15,7 @@ import { NbLayoutModule, NbSidebarModule } from '@nebular/theme';
     RouterLinkActive,
     NbLayoutModule,
     NbSidebarModule,
+    NbButtonModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
