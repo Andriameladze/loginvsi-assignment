@@ -73,10 +73,11 @@
             <nb-option
               [value]="state"
               [disabled]="
-                !form.controls.assigneeId.value && state !== TaskEnum.IN_QUEUE
+                !form.controls.assigneeId.value &&
+                state !== TaskStateEnum.IN_QUEUE
               "
             >
-              {{ state }}
+              {{ state | taskStateLabel }}
             </nb-option>
             }
           </nb-select>

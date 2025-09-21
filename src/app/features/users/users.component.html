@@ -74,7 +74,9 @@
             <nb-list-item>
               <div class="users__task-row">
                 <span class="users__task-name">{{ task.name }}</span>
-                <span class="users__task-state">({{ task.state }})</span>
+                <span class="users__task-state"
+                  >({{ task.state | taskStateLabel }})</span
+                >
                 <span>Updated {{ task.updatedAt | date : "short" }}</span>
               </div>
             </nb-list-item>

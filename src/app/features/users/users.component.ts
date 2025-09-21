@@ -12,7 +12,8 @@ import {
 import { Task } from '../../core/models/task.model';
 import { User } from '../../core/models/user.model';
 import { TaskManagerStore } from '../../core/services/task-manager.store';
-import { TaskEnum } from '../../core/constants/task.const';
+import { TaskStateEnum } from '../../core/constants/task.const';
+import { TaskStateLabelPipe } from '../../core/pipes/task-state-label.pipe';
 
 interface UserViewModel extends User {
   tasks: Task[];
@@ -32,6 +33,7 @@ interface UserViewModel extends User {
     NbInputModule,
     NbListModule,
     NbBadgeModule,
+    TaskStateLabelPipe,
   ],
 })
 export class UsersComponent {
@@ -40,7 +42,7 @@ export class UsersComponent {
   private readonly toastr = inject(NbToastrService);
 
   private readonly editingUserId = signal<string | null>(null);
-  TaskEnum = TaskEnum;
+  TaskStateEnum = TaskStateEnum;
 
   readonly userForm = this.fb.group({
     name: this.fb.nonNullable.control('', [
@@ -55,7 +57,7 @@ export class UsersComponent {
     return this.store.users().map((user) => {
       const ownedTasks = tasks.filter((task) => task.assigneeId === user.id);
       const inProgressTask = ownedTasks.find(
-        (task) => task.state === TaskEnum.IN_PROGRESS
+        (task) => task.state === TaskStateEnum.IN_PROGRESS
       );
 
       return {

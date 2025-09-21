@@ -4,7 +4,7 @@ import { BehaviorSubject, combineLatest, map, of } from 'rxjs';
 
 import { Task, TaskDraft } from '../models/task.model';
 import { User, UserDraft } from '../models/user.model';
-import { TaskEnum } from '../constants/task.const';
+import { TaskStateEnum } from '../constants/task.const';
 
 interface TaskManagerState {
   tasks: Task[];
@@ -21,7 +21,7 @@ type StateMutation = (state: TaskManagerState) => TaskManagerState;
 export class TaskManagerStore {
   private readonly state = signal<TaskManagerState>(this.loadInitialState());
 
-  TaskEnum = TaskEnum;
+  TaskStateEnum = TaskStateEnum;
 
   readonly tasks = computed(() => this.state().tasks);
   readonly users = computed(() => this.state().users);
@@ -31,7 +31,8 @@ export class TaskManagerStore {
       new Set(
         this.tasks()
           .filter(
-            (task) => task.state === TaskEnum.IN_PROGRESS && task.assigneeId
+            (task) =>
+              task.state === TaskStateEnum.IN_PROGRESS && task.assigneeId
           )
           .map((task) => task.assigneeId as string)
       )
@@ -89,7 +90,7 @@ export class TaskManagerStore {
           ? {
               ...task,
               assigneeId: null,
-              state: TaskEnum.IN_QUEUE,
+              state: TaskStateEnum.IN_QUEUE,
               updatedAt: new Date().toISOString(),
             }
           : task
@@ -122,7 +123,7 @@ export class TaskManagerStore {
         ...existing,
         ...changes,
         assigneeId: desiredAssignee,
-        state: desiredAssignee ? desiredState : TaskEnum.IN_QUEUE,
+        state: desiredAssignee ? desiredState : TaskStateEnum.IN_QUEUE,
         updatedAt: new Date().toISOString(),
       };
 
@@ -143,11 +144,14 @@ export class TaskManagerStore {
   }
 
   private assertTaskRules(candidate: Task, previous?: Task) {
-    if (!candidate.assigneeId && candidate.state !== TaskEnum.IN_QUEUE) {
+    if (!candidate.assigneeId && candidate.state !== TaskStateEnum.IN_QUEUE) {
       throw new Error('Unassigned tasks must stay in the "in queue" state.');
     }
 
-    if (!candidate.assigneeId || candidate.state !== TaskEnum.IN_PROGRESS) {
+    if (
+      !candidate.assigneeId ||
+      candidate.state !== TaskStateEnum.IN_PROGRESS
+    ) {
       return;
     }
 
@@ -155,7 +159,7 @@ export class TaskManagerStore {
       (task) =>
         task.assigneeId === candidate.assigneeId &&
         task.id !== candidate.id &&
-        task.state === TaskEnum.IN_PROGRESS
+        task.state === TaskStateEnum.IN_PROGRESS
     );
 
     if (conflictingTask) {
@@ -193,7 +197,7 @@ export class TaskManagerStore {
       id: crypto.randomUUID(),
       name: draft.name,
       description: draft.description,
-      state: TaskEnum.IN_QUEUE,
+      state: TaskStateEnum.IN_QUEUE,
       assigneeId: draft.assigneeId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

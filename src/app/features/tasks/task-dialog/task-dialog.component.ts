@@ -10,9 +10,10 @@ import {
   NbToastrService,
 } from '@nebular/theme';
 
-import { TASK_STATES, TaskEnum } from '../../../core/constants/task.const';
+import { TASK_STATES, TaskStateEnum } from '../../../core/constants/task.const';
 import { Task, TaskDraft, TaskState } from '../../../core/models/task.model';
 import { TaskManagerStore } from '../../../core/services/task-manager.store';
+import { TaskStateLabelPipe } from '../../../core/pipes/task-state-label.pipe';
 
 @Component({
   standalone: true,
@@ -24,6 +25,7 @@ import { TaskManagerStore } from '../../../core/services/task-manager.store';
     NbInputModule,
     NbSelectModule,
     NbButtonModule,
+    TaskStateLabelPipe,
   ],
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.scss',
@@ -34,7 +36,7 @@ export class TaskDialogComponent implements OnInit {
   private readonly toastr = inject(NbToastrService);
   private readonly dialogRef = inject(NbDialogRef<TaskDialogComponent>);
 
-  TaskEnum = TaskEnum;
+  TaskStateEnum = TaskStateEnum;
 
   mode: 'create' | 'edit' = 'create';
   task: Task | null = null;
@@ -52,7 +54,7 @@ export class TaskDialogComponent implements OnInit {
       Validators.maxLength(500),
     ]),
     assigneeId: this.fb.control<string | null>(null),
-    state: this.fb.nonNullable.control<TaskState>(TaskEnum.IN_QUEUE, [
+    state: this.fb.nonNullable.control<TaskState>(TaskStateEnum.IN_QUEUE, [
       Validators.required,
     ]),
   });
@@ -111,12 +113,12 @@ export class TaskDialogComponent implements OnInit {
     this.form.patchValue({ assigneeId: resolvedValue });
 
     if (!resolvedValue) {
-      this.form.patchValue({ state: TaskEnum.IN_QUEUE });
+      this.form.patchValue({ state: TaskStateEnum.IN_QUEUE });
     }
   }
 
   isOptionDisabled(userId: string): boolean {
-    if (this.form.controls.state.value !== TaskEnum.IN_PROGRESS) {
+    if (this.form.controls.state.value !== TaskStateEnum.IN_PROGRESS) {
       return false;
     }
 

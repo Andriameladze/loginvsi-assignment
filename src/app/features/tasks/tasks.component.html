@@ -51,7 +51,7 @@
                     [value]="state"
                     [disabled]="isStatusOptionDisabled(task, state)"
                   >
-                    {{ state }}
+                    {{ state | taskStateLabel }}
                   </nb-option>
                   }
                 </nb-select>

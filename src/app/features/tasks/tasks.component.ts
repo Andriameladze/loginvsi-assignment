@@ -8,17 +8,24 @@ import {
   NbToastrService,
 } from '@nebular/theme';
 
-import { TASK_STATES, TaskEnum } from '../../core/constants/task.const';
+import { TASK_STATES, TaskStateEnum } from '../../core/constants/task.const';
 import { Task, TaskState } from '../../core/models/task.model';
 import { TaskManagerStore } from '../../core/services/task-manager.store';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
+import { TaskStateLabelPipe } from '../../core/pipes/task-state-label.pipe';
 
 type TaskViewModel = Task & { assigneeName: string | null };
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, NbCardModule, NbButtonModule, NbSelectModule],
+  imports: [
+    CommonModule,
+    NbCardModule,
+    NbButtonModule,
+    NbSelectModule,
+    TaskStateLabelPipe,
+  ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
 })
@@ -94,7 +101,7 @@ export class TasksComponent {
       return false;
     }
 
-    if (task.state !== TaskEnum.IN_PROGRESS) {
+    if (task.state !== TaskStateEnum.IN_PROGRESS) {
       return false;
     }
 
@@ -106,14 +113,14 @@ export class TasksComponent {
       return false;
     }
 
-    if (!task.assigneeId && state !== TaskEnum.IN_QUEUE) {
+    if (!task.assigneeId && state !== TaskStateEnum.IN_QUEUE) {
       return true;
     }
 
-    if (state === TaskEnum.IN_PROGRESS && task.assigneeId) {
+    if (state === TaskStateEnum.IN_PROGRESS && task.assigneeId) {
       const busyUsers = this.store.busyUserIds();
       const isBusy = busyUsers.has(task.assigneeId);
-      return isBusy && task.state !== TaskEnum.IN_PROGRESS;
+      return isBusy && task.state !== TaskStateEnum.IN_PROGRESS;
     }
 
     return false;

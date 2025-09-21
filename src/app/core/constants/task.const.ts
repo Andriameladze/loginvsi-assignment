@@ -1,13 +1,19 @@
 import { TaskState } from '../models/task.model';
 
-export enum TaskEnum {
+export enum TaskStateEnum {
   IN_QUEUE = 'in-queue',
   IN_PROGRESS = 'in-progress',
   DONE = 'done',
 }
 
+export const TASK_STATE_LABELS: Record<TaskStateEnum, string> = {
+  [TaskStateEnum.IN_QUEUE]: 'In Queue',
+  [TaskStateEnum.IN_PROGRESS]: 'In Progress',
+  [TaskStateEnum.DONE]: 'Done',
+};
+
 export const TASK_STATES: TaskState[] = [
-  TaskEnum.IN_QUEUE,
-  TaskEnum.IN_PROGRESS,
-  TaskEnum.DONE,
+  TaskStateEnum.IN_QUEUE,
+  TaskStateEnum.IN_PROGRESS,
+  TaskStateEnum.DONE,
 ];
