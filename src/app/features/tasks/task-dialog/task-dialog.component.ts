@@ -85,14 +85,21 @@ export class TaskDialogComponent implements OnInit {
 
     const formValue = this.form.getRawValue();
 
-    if (this.isEditMode && this.task) {
-      this.store.updateTask(this.task.id, formValue as Partial<TaskDraft>);
-      this.toastr.success('Task updated successfully', 'Updated');
-    } else {
-      this.store.createTask(formValue as TaskDraft);
-      this.toastr.success('Task created successfully', 'Created');
+    try {
+      if (this.isEditMode && this.task) {
+        this.store.updateTask(this.task.id, formValue as Partial<TaskDraft>);
+        this.toastr.success('Task updated successfully', 'Updated');
+      } else {
+        this.store.createTask(formValue as TaskDraft);
+        this.toastr.success('Task created successfully', 'Created');
+      }
+      this.dialogRef.close(true);
+    } catch (error) {
+      this.toastr.danger(
+        error instanceof Error ? error.message : String(error),
+        'Error'
+      );
     }
-    this.dialogRef.close(true);
   }
 
   cancel(): void {
