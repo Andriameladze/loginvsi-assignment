@@ -38,6 +38,7 @@ export class TaskManagerStore {
       )
   );
 
+  // WE COULD DO THIS WAY
   // readonly tasks$ = toObservable(this.tasks);
   // readonly users$ = toObservable(this.users);
 
