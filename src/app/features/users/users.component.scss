@@ -1,0 +1,105 @@
+.users {
+  display: grid;
+  gap: 24px;
+  padding: 16px;
+
+  &__list {
+    display: grid;
+  }
+
+  &__item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  &__form-card {
+    max-width: 520px;
+  }
+
+  &__form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  &__item-name {
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+
+  &__tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+
+  &__task-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    &__error {
+      color: red;
+      font-size: 12px;
+    }
+
+    &__actions {
+      display: flex;
+      gap: 12px;
+    }
+  }
+
+  &__task-name {
+    font-weight: 600;
+  }
+
+  &__task-state {
+    color: grey;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  &__empty,
+  &__empty-list {
+    margin: 0;
+    font-style: italic;
+    color: var(--nb-text-hint-color);
+  }
+}
+
+@media (min-width: 1024px) {
+  .users {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .users__form-card {
+    position: sticky;
+    top: 16px;
+    height: fit-content;
+  }
+}

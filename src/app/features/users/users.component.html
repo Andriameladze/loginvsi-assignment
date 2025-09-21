@@ -1,1 +1,110 @@
-<p>users works!</p>
+<div class="users">
+  <nb-card class="users__form-card">
+    <nb-card-header>
+      <div class="users__form-header">
+        <h2>{{ isEditing() ? "Edit User" : "Create User" }}</h2>
+
+        @if(isEditing()){
+        <button
+          nbButton
+          ghost
+          size="small"
+          status="basic"
+          (click)="cancelEdit()"
+        >
+          Cancel
+        </button>
+        }
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <form class="user-form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="user-form__field">
+          <label for="user-name">Name</label>
+          <input
+            nbInput
+            id="user-name"
+            placeholder="e.g. Grace Hopper"
+            formControlName="name"
+          />
+
+          @if(userForm.controls.name.touched && userForm.controls.name.invalid){
+          <span class="user-form__error">
+            Name is required and limited to 20 characters.
+          </span>
+          }
+        </div>
+        <div class="user-form__actions">
+          <button nbButton status="primary" type="submit">
+            {{ isEditing() ? "Update User" : "Create User" }}
+          </button>
+
+          @if(!isEditing()){
+          <button
+            nbButton
+            status="basic"
+            type="button"
+            (click)="userForm.reset({ name: '' })"
+          >
+            Clear
+          </button>
+          }
+        </div>
+      </form>
+    </nb-card-body>
+  </nb-card>
+
+  @if( users().length ){
+  <section class="users__list">
+    @for(user of users(); track user.id){
+    <nb-card class="users__item">
+      <nb-card-header style="position: relative">
+        <div class="users__item-header">
+          <span class="users__item-name">{{ user.name }}</span>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <section class="users__tasks">
+          <span class="title">Assigned tasks</span>
+
+          @if(user.tasks.length){
+          <nb-list>
+            @for(task of user.tasks; track task.id){
+            <nb-list-item>
+              <div class="users__task-row">
+                <span class="users__task-name">{{ task.name }}</span>
+                <span class="users__task-state">({{ task.state }})</span>
+                <span>Updated {{ task.updatedAt | date : "short" }}</span>
+              </div>
+            </nb-list-item>
+            }
+          </nb-list>
+          }@else {
+          <p class="users__empty">No tasks assigned.</p>
+          }
+        </section>
+      </nb-card-body>
+
+      <nb-card-footer>
+        <div class="users__actions">
+          <button nbButton size="small" status="info" (click)="editUser(user)">
+            Edit
+          </button>
+          <button
+            nbButton
+            size="small"
+            status="danger"
+            (click)="deleteUser(user)"
+          >
+            Delete
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+    }
+  </section>
+  } @else {
+  <p class="users__empty-list">No users yet. Create one with the form above.</p>
+  }
+</div>
